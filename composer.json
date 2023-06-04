@@ -1,0 +1,10 @@
+{
+    "name": "hello/todo-react",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}
