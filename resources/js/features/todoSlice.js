@@ -8,25 +8,26 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    setTodos: (state, todos) => {
-      state.value = todos.payload;
+    setTodos: (state, { payload }) => {
+      state.value = payload;
     },
-    add_todo: (state, todo) => {
-      state.value.push(todo.payload);
+    add_todo: (state, { payload }) => {
+      state.value.push(payload);
     },
-    delete_todo: (state, id) => {
-      state.value = state.value.filter((el) => el.id !== id);
+    delete_todo: (state, { payload }) => {
+      console.log(payload);
+      state.value = state.value.filter((obj) => obj.id !== payload);
     },
-    setComplete: (state, actions) => {
-      const i = state.value.findIndex((obj) => obj.id === actions.payload.id);
+    setComplete: (state, { payload }) => {
+      const i = state.value.findIndex((obj) => obj.id === payload.id);
       if (i !== -1) {
-        state.value[i].complete = actions.payload.complete;
+        state.value[i].complete = payload.complete;
       }
     },
-    editTodo: (state, actions) => {
-      const i = state.value.findIndex((obj) => obj.id === actions.payload.id);
+    editTodo: (state, { payload }) => {
+      const i = state.value.findIndex((obj) => obj.id === payload.id);
       if (i !== -1) {
-        state.value[i] = actions.payload.todo;
+        state.value[i] = payload.todo;
       }
     },
 

@@ -20,6 +20,14 @@ export default function ToDoItem({ item }) {
   let check_title = "";
   let edit_icon = "fa btn m-0 p-0";
 
+  if (item.complete == 0) {
+    check_class += " fa-square-o";
+    check_title = "Mark as complete";
+  } else {
+    check_class += " fa-check-square-o";
+    check_title = "Mark as todo";
+  }
+
   const edite = () => {
     if (!user.isAuth) {
       return alert("Вы не авторизованы!");
@@ -51,9 +59,9 @@ export default function ToDoItem({ item }) {
     axios
       .post(`/api/todo/${item.id}/complete`)
       .then(() => {
-        item.complete
-          ? dispatch(setComplete({ id: todo.id, complete: false }))
-          : dispatch(setComplete({ id: todo.id, complete: true }));
+        item.complete == 0
+          ? dispatch(setComplete({ id: todo.id, complete: true }))
+          : dispatch(setComplete({ id: todo.id, complete: false }));
       })
       .catch((errors) => {
         if (errors.response.status == 403) {
@@ -68,14 +76,6 @@ export default function ToDoItem({ item }) {
   } else {
     input_class += " bg-transparent";
     edit_icon += " fa-pencil text-info";
-  }
-
-  if (item.complete) {
-    check_class += " fa-check-square-o";
-    check_title = "Mark as todo";
-  } else {
-    check_class += " fa-square-o";
-    check_title = "Mark as complete";
   }
 
   const delete_t = () => {

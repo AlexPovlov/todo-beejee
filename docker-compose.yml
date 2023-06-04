@@ -1,0 +1,54 @@
+version: "3.3"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www
+      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 8000:80
+    depends_on:
+      - app
+    networks:
+      - app-network
+    container_name: nginx_todo
+
+  app:
+    build:
+      context: .
+      dockerfile: _docker/app/app.dockerfile
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    networks:
+      - app-network
+    container_name: app_todo
+
+  db:
+    image: mysql:latest
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: todo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - app-network
+    container_name: db_todo
+
+  npm:
+    image: node:latest
+    volumes:
+      - ./:/app
+    working_dir: /app
+    container_name: npm_todo
+    command: tail -f /dev/null
+
+networks:
+  app-network:
+    driver: bridge

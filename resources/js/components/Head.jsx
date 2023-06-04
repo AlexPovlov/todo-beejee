@@ -18,7 +18,7 @@ export default function Head() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="">
-        Задачи&#9794;
+        Задачи
       </Link>
       <button
         className="navbar-toggler"
